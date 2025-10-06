@@ -32,7 +32,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y emacs-nox
 
-      # 3. Export all .org files to HTML
+      # 3. Export all .org files to HTML with relative links
       - name: Export Org files to HTML
         run: |
           mkdir -p public
@@ -40,6 +40,8 @@ jobs:
             echo "Exporting $f..."
             emacs --batch "$f" \
                   --eval "(require 'ox-html)" \
+                  --eval "(setq org-html-link-org-files-as-html t)" \
+                  --eval "(setq org-html-relative-url t)" \
                   --eval "(setq org-export-output-file-name-function (lambda (f) (concat \"public/\" (file-name-base f) \".html\")))" \
                   -f org-html-export-to-html
           done

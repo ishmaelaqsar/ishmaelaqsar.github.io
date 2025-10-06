@@ -1,0 +1,62 @@
+# Export all Org files in /org to HTML and deploy to GitHub Pages
+name: Export and Deploy Org Files
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      # 🧱 1. Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 🛠️ 2. Install Emacs (headless)
+      - name: Install Emacs
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y emacs-nox
+
+      # 🧩 3. Export all .org files inside /org to HTML
+      - name: Export Org files to HTML
+        run: |
+          mkdir -p public
+          for f in org/*.org; do
+            echo "Exporting $f..."
+            emacs --batch "$f" \
+                  --eval "(require 'ox-html)" \
+                  -f org-html-export-to-html --kill
+            mv "${f%.org}.html" public/
+          done
+
+      # 📦 4. Setup GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      # 📤 5. Upload generated HTML files
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      # 🚀 6. Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+

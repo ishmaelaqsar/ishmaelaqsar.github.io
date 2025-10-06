@@ -1,0 +1,4 @@
+#+TITLE: Welcome
+* My Pages
+- [[file:resume.html][Resume]]
+

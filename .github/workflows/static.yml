@@ -22,101 +22,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository
-      - name: Checkout repository
+      - name: 🧱 Checkout repository
         uses: actions/checkout@v4
 
-      # 2️⃣ Install Emacs (headless)
-      - name: Install Emacs
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y emacs-nox
-
-      # 3️⃣ Export all Org files to HTML
-      - name: Export Org files to HTML
+      - name: 🧩 Run Org Export Script
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_ACTIONS: true
         run: |
-          echo "🔍 Searching for Org files in ./org ..."
-          mkdir -p public
-          ls -la org || { echo "❌ No org directory found!"; exit 1; }
+          chmod +x ./export-org.sh
+          ./export-org.sh
 
-          # Detect base href automatically
-          REPO_NAME=$(echo "$GITHUB_REPOSITORY" | cut -d'/' -f2)
-          if [[ "$GITHUB_REPOSITORY" == *".github.io" ]]; then
-            BASE_PATH="/"
-          else
-            BASE_PATH="/$REPO_NAME/"
-          fi
-          echo "🌐 Detected base href: $BASE_PATH"
-
-          count=0
-          for f in org/*.org; do
-            [ -e "$f" ] || { echo "⚠️ No .org files found in ./org"; break; }
-
-            echo "🧱 Exporting $f ..."
-            emacs --batch "$f" \
-                  --eval "(require 'ox-html)" \
-                  --eval "(setq org-html-link-org-files-as-html t)" \
-                  --eval "(setq org-html-relative-url t)" \
-                  --eval "(setq org-html-head (concat \"<base href='${BASE_PATH}'><link rel='stylesheet' type='text/css' href='stylesheet.css'>\"))" \
-                  --eval "(setq org-export-output-file-name-function (lambda (f) (concat \"public/\" (file-name-nondirectory (concat (file-name-base f) \".html\")))))" \
-                  -f org-html-export-to-html
-
-            html_file="public/$(basename "${f%.org}.html")"
-            if [ -f "$html_file" ]; then
-              echo "✅ Exported: $f → $html_file"
-              count=$((count + 1))
-            else
-              echo "❌ Failed to export $f"
-            fi
-          done
-
-          echo "📦 Total Org files exported: $count"
-          echo "🌐 Base href used for export: $BASE_PATH"
-
-      # 4️⃣ Copy stylesheet
-      - name: Copy stylesheet
+      - name: 📂 List exported files
         run: |
-          echo "🎨 Copying stylesheet.css → public/"
-          mkdir -p public
-          if [ -f stylesheet.css ]; then
-            cp stylesheet.css public/
-            echo "✅ stylesheet.css copied"
-          else
-            echo "⚠️ stylesheet.css not found"
-          fi
-
-      # 5️⃣ Copy image assets
-      - name: Copy assets
-        run: |
-          echo "🖼️ Copying assets from org/assets → public/assets/"
-          mkdir -p public/assets
-          if [ -d org/assets ]; then
-            cp -r org/assets/* public/assets/ 2>/dev/null || true
-            echo "✅ Assets copied"
-          else
-            echo "⚠️ No assets directory found"
-          fi
-
-      # 6️⃣ List exported files
-      - name: List exported files
-        run: |
-          echo "📂 Final contents of public/:"
+          echo "📂 Contents of public/:"
           tree public || find public -type f | sort
-          echo "✅ Ready for upload to GitHub Pages"
 
-      # 7️⃣ Setup GitHub Pages
-      - name: Setup Pages
+      - name: ⚙️ Setup Pages
         uses: actions/configure-pages@v5
 
-      # 8️⃣ Upload artifact
-      - name: Upload artifact
+      - name: 📤 Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: public
 
-      # 9️⃣ Deploy to GitHub Pages
-      - name: Deploy to GitHub Pages
+      - name: 🚀 Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

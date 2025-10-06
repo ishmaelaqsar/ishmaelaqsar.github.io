@@ -1,26 +1,19 @@
 #+TITLE: Welcome
-#+OPTIONS: toc:nil num:nil
-#+PROPERTY: header-args :exports none
+#+OPTIONS: toc:nil num:nil html-postamble:nil
 
-#+BEGIN_SRC emacs-lisp
-;; Detect repo name and set <base> + CSS dynamically
-(let* ((repo-name (car (last (split-string (or (getenv "GITHUB_REPOSITORY") "") "/"))))
-       ;; If GITHUB_REPOSITORY is empty (local export), don’t use base path
-       (base (if (string-empty-p repo-name)
-                 "/"
-               (format "/%s/" repo-name)))
-       (base-tag (format "<base href='%s'>" base))
-       (css-tag "<link rel='stylesheet' type='text/css' href='stylesheet.css'>"))
-  (setq org-html-head (concat base-tag css-tag)))
-#+END_SRC
+* Ishmael Aqsar
+
+Software Engineer | [[https://www.linkedin.com/in/ishmaelaqsar][LinkedIn]] | [[https://github.com/ishmaelaqsar][GitHub]]
 
 * My Pages
-#+BEGIN_SRC emacs-lisp :exports results
-;; Dynamically generate a list of links to all .org files (except index.org)
-(let ((files (directory-files "org" t "\\.org$")))
-  (dolist (f files)
-    (unless (string= (file-name-nondirectory f) "index.org")
-      (princ (format "- [[file:%s][%s]]\n"
-                     (file-name-nondirectory f)
-                     (capitalize (file-name-base f))))))))
+
+#+BEGIN_SRC emacs-lisp :exports results :results raw
+(let* ((org-dir (file-name-directory (buffer-file-name)))
+       (files (directory-files org-dir nil "\\.org$")))
+  (mapconcat
+   (lambda (f)
+     (unless (string= f "index.org")
+       (format "- [[file:%s][%s]]" f (capitalize (file-name-base f)))))
+   files "\n"))
 #+END_SRC
+

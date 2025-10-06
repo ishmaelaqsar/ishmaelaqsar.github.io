@@ -1,132 +1,64 @@
-#+TITLE: Resume
-#+OPTIONS: toc:nil num:nil
-#+PROPERTY: header-args :exports none
+#+TITLE: Ishmael Aqsar
+#+OPTIONS: toc:nil num:nil html-postamble:nil
 
-#+BEGIN_SRC emacs-lisp
-;; Include same dynamic base + CSS
-(let* ((repo-name (car (last (split-string (or (getenv "GITHUB_REPOSITORY") "") "/"))))
-       (base (if (string-empty-p repo-name)
-                 "/"
-               (format "/%s/" repo-name)))
-       (base-tag (format "<base href='%s'>" base))
-       (css-tag "<link rel='stylesheet' type='text/css' href='stylesheet.css'>"))
-  (setq org-html-head (concat base-tag css-tag)))
-#+END_SRC
+* Summary
 
-* Ishmael Aqsar
-:PROPERTIES:
-:Phone: [REDACTED]
-:Email: [REDACTED]
-:LinkedIn: https://www.linkedin.com/in/ishmaelaqsar
-:GitHub: https://github.com/ishmaelaqsar
-:END:
+Experienced software engineer skilled in developing high-performance and concurrent code, adept at optimizing system efficiency and scalability. Proficient in crafting solutions for distributed applications, including microservices architecture, ensuring seamless communication and fault tolerance across distributed systems.
 
-** Summary
-Experienced software engineer skilled in developing high-performance and concurrent code, adept at optimizing system efficiency
-and scalability. Proficient in crafting solutions for distributed applications, including microservices architecture, ensuring seamless
-communication and fault tolerance across distributed systems.
+* Experience
 
-** Experience
-
-*** Citibank
-:PROPERTIES:
-:Role: Software Engineer
-:Dates: June 2025 - Present
-:Location: London, UK
-:Website: https://www.citi.com/
-:END:
+** Citibank
+*** Software Engineer
+/June 2025 - Present | London, UK/
 
 Writing and maintaining low-latency Java applications used in the eFX trading organisation.
 
-*** JPMorgan Chase
-:PROPERTIES:
-:Role: Software Engineer
-:Dates: September 2024 - May 2025
-:Location: London, UK
-:Website: https://www.jpmorganchase.com/
-:END:
+** JPMorgan Chase
+*** Software Engineer
+/September 2024 - May 2025 | London, UK/
 
-Improved the reliability of Kotlin microservices running in GKE clusters by refining the deployment process using GitHub
-workflows, and improving monitoring by exporting metrics with OpenTelemetry and visualising them in Grafana.
+- Improved the reliability of Kotlin microservices running in GKE clusters by refining the deployment process using GitHub workflows, and improving monitoring by exporting metrics with OpenTelemetry and visualising them in Grafana
+- Supported product and support teams in integrating with the new platform and created comprehensive service documentation
 
-Supported product and support teams in integrating with the new platform and created comprehensive service documentation.
+** Booking.com
+*** Software Engineer
+/June 2023 - August 2024 | Amsterdam, NL/
 
-*** Booking.com
-:PROPERTIES:
-:Role: Software Engineer
-:Dates: June 2023 - August 2024
-:Location: Amsterdam, NL
-:Website: https://www.booking.com/
-:END:
+- Enhanced legacy Perl backend systems to support advanced fraud detection models, improving accuracy and operational efficiency
+- Led the migration of legacy applications from Perl to Java, optimising system scalability and maintainability
+- Transitioned on-premise cron jobs to AWS, reducing infrastructure costs and increasing deployment flexibility
+- Collaborated with cross-functional teams to streamline fraud detection processes, significantly reducing fraudulent transactions and leakage of sensitive data
 
-Enhanced legacy Perl backend systems to support advanced fraud detection models, improving accuracy and operational
-efficiency.
+** Flow Traders
+*** Software Engineer
+/September 2019 - June 2023 | Amsterdam, NL/
 
-Led the migration of legacy applications from Perl to Java, optimising system scalability and maintainability.
+- Engaged in the development of an experimental pricing engine for the currency desk, leveraging zero allocation techniques to achieve minimal garbage collection impact. This approach slashed tail latencies by 80% compared to the incumbent solution, enhancing overall performance and pricing quality
+- Built a new highly-available service that allowed Quants to store trained models, and for Traders to retrieve these models for pricing purposes. This solution alleviated strain on database servers, mitigating the burden of thousands of concurrent requests previously experienced each morning from individual clients
+- Collaborated with JP Morgan on implementing a real-time automated Trade Reporter to onboard them as a Prime Broker. This initiative expanded the FX desk's trading reach by granting access to additional counterparties, subsequently boosting overall trading volumes
+- Developed and validated Dropcopy clients for the FX desk to establish FIX based connections with new trading sessions. Facilitated trade reconciliation and met Risk Management standards, resulting in heightened trading volumes
+- Implemented a high-throughput, low-latency service tailored for the FX desk. This service used Aeron for hot path communication and gRPC for configuration changes. Its implementation facilitated a reduction in hardware footprint by efficiently multiplexing sessions to trading engines, streamlining the onboarding process for new sessions, and enhancing overall operational efficiency
+- Collaborated with the FX desk to integrate a Last Look strategy into their trading engine. This elevated trade quality by providing visibility into market movements prior to the acceptance or rejection of trade intentions, thereby optimising decision-making processes and refining trading outcomes
 
-Transitioned on-premise cron jobs to AWS, reducing infrastructure costs and increasing deployment flexibility.
+** Bet365
+*** Software Engineer
+/September 2018 - September 2019 | Stoke-on-Trent, UK/
 
-Collaborated with cross-functional teams to streamline fraud detection processes, significantly reducing fraudulent
-transactions, and leakage of sensitive data.
+- Reduced the load on SQL databases by migrating/caching user data into a NoSQL database (Riak). Additionally, engineered a new REST-based middleware to seamlessly serve clients with user information, ensuring smooth and efficient access while alleviating strain on backend infrastructure
+- Optimised the site's search indexer, increasing its capacity to index multiple languages on a single server without compromising performance
 
-*** Flow Traders
-:PROPERTIES:
-:Role: Software Engineer
-:Dates: September 2019 - June 2023
-:Location: Amsterdam, NL
-:Website: https://www.flowtraders.com/
-:END:
+* Education
 
-Engaged in the development of an experimental pricing engine for the currency desk, leveraging zero allocation techniques to
-achieve minimal garbage collection impact. This approach slashed tail latencies by 80% compared to the incumbent solution,
-enhancing overall performance and pricing quality.
+** University of Birmingham
+*** MSc Computer Science with Distinction
+/September 2017 - September 2018/
 
-Built a new highly-available service that allowed Quants to store trained models, and for Traders to retrieve these models for
-pricing purposes. This solution alleviated strain on database servers, mitigating the burden of thousands of concurrent requests
-previously experienced each morning from individual clients.
+** University of Birmingham
+*** BEng (Hons) Chemical Engineering
+/September 2014 - July 2017/
 
-Collaborated with JP Morgan on implementing a real-time automated Trade Reporter to onboard them as a Prime Broker. This
-initiative expanded the FX desk's trading reach by granting access to additional counterparties, subsequently boosting overall
-trading volumes.
+* Skills
 
-Developed and validated Dropcopy clients for the FX desk to establish FIX-based connections with new trading sessions.
-Facilitated trade reconciliation and met Risk Management standards, resulting in heightened trading volumes.
+*Languages:* Java, Kotlin, Python, Go, C++
 
-Implemented a high-throughput, low-latency service tailored for the FX desk. This service used Aeron for hot path
-communication and gRPC for configuration changes. Its implementation facilitated a reduction in hardware footprint by
-efficiently multiplexing sessions to trading engines, streamlining the onboarding process for new sessions, and enhancing
-overall operational efficiency.
-
-Collaborated with the FX desk to integrate a Last Look strategy into their trading engine. This elevated trade quality by providing
-visibility into market movements prior to the acceptance or rejection of trade intentions, thereby optimising decision-making
-processes and refining trading outcomes.
-
-*** Bet365
-:PROPERTIES:
-:Role: Software Engineer
-:Dates: September 2018 - September 2019
-:Location: Stoke-on-Trent, UK
-:Website: https://www.bet365.com/
-:END:
-
-Reduced the load on SQL databases by migrating/caching user data into a NoSQL database (Riak). Additionally, engineered a
-new REST-based middleware to seamlessly serve clients with user information, ensuring smooth and efficient access while
-alleviating strain on backend infrastructure.
-
-Optimised the site's search indexer, increasing its capacity to index multiple languages on a single server without compromising
-performance.
-
-** Education
-
-*** University of Birmingham
-:Degree: MSc Computer Science with Distinction
-:Dates: September 2017 - September 2018
-
-*** University of Birmingham
-:Degree: BEng (Hons) Chemical Engineering
-:Dates: September 2014 - July 2017
-
-** Skills
-Java, Kotlin, Python, Go, C++
-
-Linux, Git, Docker, Kubernetes, Aeron, gRPC, FIX, Spring Boot
+*Technologies:* Linux, Git, Docker, Kubernetes, Aeron, gRPC, FIX, Spring Boot

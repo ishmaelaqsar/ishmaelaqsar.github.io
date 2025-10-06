@@ -1,6 +1,17 @@
 #+TITLE: Resume
 #+OPTIONS: toc:nil num:nil
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="stylesheet.css" />
+#+PROPERTY: header-args :exports none
+
+#+BEGIN_SRC emacs-lisp
+;; Include same dynamic base + CSS
+(let* ((repo-name (car (last (split-string (or (getenv "GITHUB_REPOSITORY") "") "/"))))
+       (base (if (string-empty-p repo-name)
+                 "/"
+               (format "/%s/" repo-name)))
+       (base-tag (format "<base href='%s'>" base))
+       (css-tag "<link rel='stylesheet' type='text/css' href='stylesheet.css'>"))
+  (setq org-html-head (concat base-tag css-tag)))
+#+END_SRC
 
 * Ishmael Aqsar
 :PROPERTIES:

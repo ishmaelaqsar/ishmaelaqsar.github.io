@@ -1,14 +1,26 @@
 #+TITLE: Welcome
 #+OPTIONS: toc:nil num:nil
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="stylesheet.css" />
+#+PROPERTY: header-args :exports none
+
+#+BEGIN_SRC emacs-lisp
+;; Detect repo name and set <base> + CSS dynamically
+(let* ((repo-name (car (last (split-string (or (getenv "GITHUB_REPOSITORY") "") "/"))))
+       ;; If GITHUB_REPOSITORY is empty (local export), don’t use base path
+       (base (if (string-empty-p repo-name)
+                 "/"
+               (format "/%s/" repo-name)))
+       (base-tag (format "<base href='%s'>" base))
+       (css-tag "<link rel='stylesheet' type='text/css' href='stylesheet.css'>"))
+  (setq org-html-head (concat base-tag css-tag)))
+#+END_SRC
 
 * My Pages
 #+BEGIN_SRC emacs-lisp :exports results
+;; Dynamically generate a list of links to all .org files (except index.org)
 (let ((files (directory-files "org" t "\\.org$")))
   (dolist (f files)
     (unless (string= (file-name-nondirectory f) "index.org")
       (princ (format "- [[file:%s][%s]]\n"
-                     (concat (file-name-base f) ".org")
-                     (file-name-base f)))))) 
+                     (file-name-nondirectory f)
+                     (capitalize (file-name-base f))))))))
 #+END_SRC
-

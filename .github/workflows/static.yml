@@ -26,13 +26,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Install Emacs (headless)
+      # 2. Install Emacs
       - name: Install Emacs
         run: |
           sudo apt-get update
           sudo apt-get install -y emacs-nox
 
-      # 3. Export all .org files to HTML with relative links
+      # 3. Export all Org files to HTML
       - name: Export Org files to HTML
         run: |
           mkdir -p public
@@ -42,32 +42,25 @@ jobs:
                   --eval "(require 'ox-html)" \
                   --eval "(setq org-html-link-org-files-as-html t)" \
                   --eval "(setq org-html-relative-url t)" \
-                  --eval "(setq org-export-output-file-name-function (lambda (f) (concat \"public/\" (file-name-base f) \".html\")))" \
+                  --eval "(setq org-export-output-file-name-function (lambda (f) (concat \"public/\" (file-name-nondirectory (concat (file-name-base f) \".html\")))))" \
                   -f org-html-export-to-html
           done
 
       # 4. Copy stylesheet
       - name: Copy stylesheet
-        run: |
-          cp stylesheet.css public/
+        run: cp stylesheet.css public/
 
-      # 5. Copy image assets referenced in Org files
-      - name: Copy image assets
+      # 5. Copy image assets
+      - name: Copy assets
         run: |
           mkdir -p public/assets
-          for img in $(grep -oP '(?<=file:)[^]\) ]+' org/*.org); do
-            if [ -f "$img" ]; then
-              dest_dir="public/$(dirname "$img")"
-              mkdir -p "$dest_dir"
-              cp "$img" "$dest_dir/"
-            fi
-          done || true
+          cp -r org/assets/* public/assets/ 2>/dev/null || true
 
-      # 6. Setup GitHub Pages
+      # 6. Setup Pages
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      # 7. Upload all generated HTML, CSS, and assets
+      # 7. Upload artifact
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

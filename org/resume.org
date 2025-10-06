@@ -1,3 +1,7 @@
+#+TITLE: Resume
+#+OPTIONS: toc:nil num:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="stylesheet.css" />
+
 * Ishmael Aqsar
 :PROPERTIES:
 :Phone: [REDACTED]

@@ -1,0 +1,63 @@
+/* Basic clean styling for Org export */
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #2c3e50;
+    margin-top: 1.5rem;
+}
+
+a {
+    color: #007acc;
+    text-decoration: none;
+    transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+a:hover {
+    color: #005fa3;
+    padding-left: 0.3rem;
+}
+
+ul {
+    padding-left: 1.5rem;
+}
+
+li {
+    margin-bottom: 0.5rem;
+}
+
+code {
+    background-color: #eee;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+/* Homepage menu styling */
+#org-content ul {
+    list-style-type: none; /* remove bullets */
+    padding-left: 0;
+}
+
+#org-content li {
+    padding: 0.4rem 0;
+}
+
+#org-content li a {
+    display: inline-block;
+    padding: 0.3rem 0.5rem;
+    border-radius: 4px;
+}
+
+#org-content li a:hover {
+    background-color: #e0f0ff;
+    color: #005fa3;
+    text-decoration: none;
+    padding-left: 0.5rem;
+}

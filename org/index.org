@@ -1,4 +1,14 @@
 #+TITLE: Welcome
+#+OPTIONS: toc:nil num:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="stylesheet.css" />
+
 * My Pages
-- [[file:resume.html][Resume]]
+#+BEGIN_SRC emacs-lisp :exports results
+(let ((files (directory-files "org" t "\\.org$")))
+  (dolist (f files)
+    (unless (string= (file-name-nondirectory f) "index.org")
+      (princ (format "- [[file:%s][%s]]\n"
+                     (concat (file-name-base f) ".org")
+                     (file-name-base f)))))) 
+#+END_SRC
 

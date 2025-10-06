@@ -1,4 +1,3 @@
-# Export all Org files in /org to HTML and deploy to GitHub Pages
 name: Export and Deploy Org Files
 
 on:
@@ -23,17 +22,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 🧱 1. Checkout repository
+      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 🛠️ 2. Install Emacs (headless)
+      # 2. Install Emacs (headless)
       - name: Install Emacs
         run: |
           sudo apt-get update
           sudo apt-get install -y emacs-nox
 
-      # 🧩 3. Export all .org files inside /org to HTML
+      # 3. Export all .org files to HTML
       - name: Export Org files to HTML
         run: |
           mkdir -p public
@@ -41,22 +40,38 @@ jobs:
             echo "Exporting $f..."
             emacs --batch "$f" \
                   --eval "(require 'ox-html)" \
-                  -f org-html-export-to-html --kill
-            mv "${f%.org}.html" public/
+                  --eval "(setq org-export-output-file-name-function (lambda (f) (concat \"public/\" (file-name-base f) \".html\")))" \
+                  -f org-html-export-to-html
           done
 
-      # 📦 4. Setup GitHub Pages
+      # 4. Copy stylesheet
+      - name: Copy stylesheet
+        run: |
+          cp stylesheet.css public/
+
+      # 5. Copy image assets referenced in Org files
+      - name: Copy image assets
+        run: |
+          mkdir -p public/assets
+          for img in $(grep -oP '(?<=file:)[^]\) ]+' org/*.org); do
+            if [ -f "$img" ]; then
+              dest_dir="public/$(dirname "$img")"
+              mkdir -p "$dest_dir"
+              cp "$img" "$dest_dir/"
+            fi
+          done || true
+
+      # 6. Setup GitHub Pages
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      # 📤 5. Upload generated HTML files
+      # 7. Upload all generated HTML, CSS, and assets
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: public
 
-      # 🚀 6. Deploy to GitHub Pages
+      # 8. Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-

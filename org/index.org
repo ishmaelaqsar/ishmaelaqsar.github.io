@@ -3,7 +3,7 @@
 
 * Ishmael Aqsar
 
-Software Engineer | [[https://www.linkedin.com/in/ishmaelaqsar][LinkedIn]] | [[https://github.com/ishmaelaqsar][GitHub]]
+Software Engineer | [[mailto:ishmael@aqsar.dev][Email]] | [[https://www.linkedin.com/in/ishmaelaqsar][LinkedIn]] | [[https://github.com/ishmaelaqsar][GitHub]]
 
 * My Pages
 
@@ -16,4 +16,3 @@ Software Engineer | [[https://www.linkedin.com/in/ishmaelaqsar][LinkedIn]] | [[h
        (format "- [[file:%s][%s]]" f (capitalize (file-name-base f)))))
    files "\n"))
 #+END_SRC
-
